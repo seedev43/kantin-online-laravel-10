@@ -263,7 +263,6 @@
                             <h5 class="text-xl tracking-tight text-slate-900 dark:text-white">{{ $product->name }}</h5>
                         </a>
                         <div class="mt-2 mb-5 flex items-center justify-between">
-
                             <p>
                                 <span id="price"
                                     class="text-xl lg:text-2xl font-bold text-slate-900 dark:text-white">{{ $product->price }}</span>
@@ -271,18 +270,26 @@
                             </p>
                         </div>
                         @if (Auth::check())
-                            <button onclick="openModal(this)"
-                                class="flex items-center justify-center w-full rounded-md dark:bg-slate-900 bg-slate-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                                data-modal-target="crud-modal-{{ $product->id }}"
-                                data-modal-toggle="crud-modal-{{ $product->id }}"
-                                data-product-id="{{ $product->id }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
-                                Add to cart
-                            </button>
+                            <div class="flex flex-col space-y-3">
+                                <button onclick="openModal(this)"
+                                    class="flex items-center justify-center rounded-md dark:bg-slate-900 bg-slate-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                                    data-modal-target="crud-modal-{{ $product->id }}"
+                                    data-modal-toggle="crud-modal-{{ $product->id }}"
+                                    data-product-id="{{ $product->id }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    Add to cart
+                                </button>
+                                <button onclick="checkOut(this)"
+                                    class="flex items-center justify-center rounded-md dark:bg-slate-900 bg-slate-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                                    data-modal-target="crud-modal-{{ $product->id }}"
+                                    data-modal-toggle="crud-modal-{{ $product->id }}">
+                                    Buy Now
+                                </button>
+                            </div>
                         @else
                             <a href="{{ route('login') }}"
                                 class="flex items-center justify-center rounded-md dark:bg-slate-900 bg-slate-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
@@ -342,7 +349,8 @@
                                             </button>
                                             <input type="number" id="quantity-input-{{ $product->id }}"
                                                 data-product-id="{{ $product->id }}"
-                                                data-product-price="{{ $product->price }}" data-input-counter
+                                                data-product-price="{{ $product->price }}"
+                                                data-product-stock="{{ $product->stock }}" data-input-counter
                                                 aria-describedby="helper-text-explanation"
                                                 class="oke bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                 placeholder="10" value="1" required />
@@ -372,7 +380,8 @@
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             value="{{ $product->price }}" readonly> --}}
                                         <p class="text-lg font-medium text-gray-900 dark:text-white">
-                                            <span id="price-{{ $product->id }}">{{ $product->price }}</span>
+                                            <span data-initial-price="{{ $product->price }}"
+                                                id="price-{{ $product->id }}">{{ $product->price }}</span>
                                         </p>
                                         <p class="text-sm font-normal text-gray-900 dark:text-white mt-2">
                                             Stock: {{ $product->stock }}
